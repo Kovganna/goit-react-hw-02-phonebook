@@ -1,25 +1,33 @@
-import logo from './logo.svg';
+import { Component } from 'react';
 import './App.css';
+import ContactForm from './components/ContactForm/ContactForm';
+import Filter from './components/Filter/Filter';
+import ContactList from './components/ContactList/ContactList';
+import contacts from './components/Json/contacts-data.json';
+class App extends Component {
+  state = {
+    contacts: [],
+    name: '',
+  };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  formSubmitHandler = data => {
+    this.setState(({ contacts }) => ({
+      contacts: [data, ...contacts],
+    }));
+  };
+
+  render() {
+    return (
+      <div className="Container">
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={this.formSubmitHandler} />
+
+        <h2>Contacts</h2>
+        <Filter onChange={this.handleFilterChange} />
+        <ContactList contacts={contacts} />
+      </div>
+    );
+  }
 }
 
 export default App;
